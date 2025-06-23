@@ -13,7 +13,8 @@ namespace Banking.ENTITIES
         public string Surname { get; set; }
         public DateTime BirthDate { get; }
 
-        public List<BankAccount> BankAccounts { get; set; }
+        private readonly List<BankAccount> _accounts = new();
+        public IReadOnlyList<BankAccount> Accounts => _accounts.AsReadOnly();
 
         public string FullName => $"{Name} {Surname}";
 
@@ -31,18 +32,26 @@ namespace Banking.ENTITIES
 
         }
 
+        public void AddAccount(BankAccount account)
+        {
+            if (account == null)
+                throw new ArgumentNullException(nameof(account));
+
+            _accounts.Add(account);
+        }
+
         public List<BankAccount> GetAllBankAccounts()
         {
-            return BankAccounts.ToList();
+            return Accounts.ToList();
         }
 
         public BankAccount GetBankAccount(Guid id)
         {
-            if (BankAccounts.Count == 1)
+            if (Accounts.Count == 1)
             {
-                return BankAccounts[0];
+                return Accounts[0];
             }
-            var bankAccount = BankAccounts.FirstOrDefault(b => b.Equals(id));
+            var bankAccount = Accounts.FirstOrDefault(b => b.Equals(id));
             return bankAccount;
         }
 
@@ -55,6 +64,8 @@ namespace Banking.ENTITIES
 
             return age >= 18;
         }
+
+
 
 
     }
