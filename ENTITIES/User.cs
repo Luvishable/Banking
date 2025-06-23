@@ -15,6 +15,8 @@ namespace Banking.ENTITIES
 
         public List<BankAccount> BankAccounts { get; set; }
 
+        public string FullName => $"{Name} {Surname}";
+
 
         public User(string name, string surname, DateTime birthDate)
         {
@@ -23,7 +25,7 @@ namespace Banking.ENTITIES
             Surname = surname;
             if (!IsAgeGreaterThanEighteen(birthDate))
             {
-                throw new ArgumentException("18 yaşından küçükler hesap açamaz")
+                throw new ArgumentException("18 yaşından küçükler hesap açamaz");
             }
             BirthDate = birthDate;
 
